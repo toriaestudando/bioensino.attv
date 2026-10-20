@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Plataforma de estudos de Biologia com conteúdos, flashcards, questões e temas de redação.">
+  <meta name="theme-color" content="#0b2e59">
+  <title>BioViva — aprenda Biologia no seu ritmo</title>
+  <link rel="stylesheet" href="bio.css">
+</head>
+<body>
+  <a class="sr-only" href="#conteudos">Pular para o conteúdo principal</a>
+
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="BioViva, página inicial">
+      <span class="brand-mark" aria-hidden="true">✿</span>
+      <span>bio<span class="brand-light">viva</span></span>
+    </a>
+    <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="navMenu">☰</button>
+    <nav class="nav" id="navMenu" aria-label="Navegação principal">
+      <a href="#conteudos">Conteúdos</a>
+      <a href="#flashcards">Flashcards</a>
+      <a href="#questoes">Questões</a>
+      <a href="#redacao">Redação</a>
+    </nav>
+    <a class="top-cta" href="#questoes">Começar a estudar <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> SEU ESPAÇO DE APRENDIZADO</p>
+        <h1>Descubra a vida.<br><em>Entenda o mundo.</em></h1>
+        <p class="hero-description">
+          Biologia de um jeito mais leve: conteúdos claros, revisões rápidas e exercícios para aprender no seu ritmo.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#conteudos">Explorar conteúdos <span aria-hidden="true">→</span></a>
+          <a class="text-link" href="#flashcards">Revisar com flashcards ↗</a>
+        </div>
+        <div class="hero-note">
+          <span class="note-icon" aria-hidden="true">✦</span>
+          <span>Pequenos passos, grandes descobertas.</span>
+        </div>
+      </div>
+
+      <div class="hero-art">
+        <div class="art-circle circle-one" aria-hidden="true"></div>
+        <div class="art-circle circle-two" aria-hidden="true"></div>
+        <div class="leaf leaf-a" aria-hidden="true">❧</div>
+        <div class="leaf leaf-b" aria-hidden="true">❧</div>
+        <div class="leaf leaf-c" aria-hidden="true">❧</div>
+        <div class="art-label label-top" aria-hidden="true">BIOLOGIA <span>•</span> VIDA</div>
+        <div class="art-label label-bottom" aria-hidden="true">CURIOSIDADE É O COMEÇO</div>
+        <div class="floating-card">
+          <span class="floating-icon" aria-hidden="true">🌱</span>
+          <div>
+            <strong>Aprenda no seu ritmo</strong>
+            <small>Um assunto de cada vez</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quick-stats" aria-label="Resumo do seu progresso">
+      <div class="stat">
+        <span class="stat-icon" aria-hidden="true">📚</span>
+        <div><strong id="statTopics">6</strong><span>trilhas de conteúdo</span></div>
+      </div>
+      <div class="stat">
+        <span class="stat-icon" aria-hidden="true">🧠</span>
+        <div><strong id="statCards">8</strong><span>flashcards para revisar</span></div>
+      </div>
+      <div class="stat">
+        <span class="stat-icon" aria-hidden="true">✓</span>
+        <div><strong id="statAnswered">0</strong><span>questões respondidas</span></div>
+      </div>
+      <div class="stat">
+        <span class="stat-icon" aria-hidden="true">✍</span>
+        <div><strong id="statEssays">8</strong><span>temas de redação</span></div>
+      </div>
+    </section>
+
+    <section class="section content-section" id="conteudos">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">EXPLORE E APRENDA</p>
+          <h2>Conhecimento que <em>cria raízes.</em></h2>
+        </div>
+        <p class="section-intro">Escolha um tema e comece por um resumo direto ao ponto.</p>
+      </div>
+
+      <div class="search-row">
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <input id="contentSearch" type="search" placeholder="Buscar conteúdo, por exemplo: genética..." aria-label="Buscar conteúdo">
+        </label>
+        <div class="filter-pills" id="contentFilters" role="group" aria-label="Filtrar conteúdos por categoria">
+          <button type="button" class="filter-pill active" data-filter="Todos" aria-pressed="true">Todos</button>
+          <button type="button" class="filter-pill" data-filter="Vida" aria-pressed="false">Vida</button>
+          <button type="button" class="filter-pill" data-filter="Corpo humano" aria-pressed="false">Corpo humano</button>
+          <button type="button" class="filter-pill" data-filter="Ambiente" aria-pressed="false">Ambiente</button>
+        </div>
+      </div>
+
+      <div class="topic-grid" id="topicGrid"></div>
+      <div class="empty-state hidden" id="contentEmpty" role="status">
+        <p>Nenhum conteúdo encontrado. Tente outra palavra.</p>
+        <button type="button" class="button button-secondary" id="clearFilters">Limpar busca e filtros</button>
+      </div>
+    </section>
+
+    <section class="study-band" id="flashcards">
+      <div class="study-copy">
+        <p class="eyebrow">REVISE DE FORMA ATIVA</p>
+        <h2>Uma pergunta de cada vez.<br><em>Aprendizado que fica.</em></h2>
+        <p>
+          Teste sua memória com cartões rápidos. Pense na resposta antes de virar o cartão e confira o que você já domina.
+        </p>
+        <div class="flash-controls">
+          <button type="button" class="button button-light" id="prevCard" aria-label="Flashcard anterior">← Anterior</button>
+          <button type="button" class="button button-yellow" id="flipCard" aria-controls="flashcard">Ver resposta ↻</button>
+          <button type="button" class="button button-light" id="nextCard" aria-label="Próximo flashcard">Próximo →</button>
+        </div>
+        <div class="flash-progress">
+          <span id="flashCount">1 / 8</span>
+          <div class="progress-track"><div id="flashProgressBar"></div></div>
+        </div>
+      </div>
+
+      <div class="flash-stage">
+        <button type="button" class="flashcard" id="flashcard" aria-label="Virar flashcard">
+          <span class="card-chip" id="flashCategory">ECOLOGIA</span>
+          <span class="flash-question" id="flashQuestion">O que é um ecossistema?</span>
+          <span class="flash-answer hidden" id="flashAnswer">
+            É o conjunto de seres vivos e fatores não vivos que interagem em determinada área.
+          </span>
+          <span class="flip-hint" id="flipHint">Clique no cartão para virar <span aria-hidden="true">↻</span></span>
+        </button>
+        <div class="flash-decoration" aria-hidden="true">✳</div>
+      </div>
+    </section>
+
+    <section class="section quiz-section" id="questoes">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">PRATIQUE E DESCUBRA</p>
+          <h2>Hora de testar <em>seus conhecimentos.</em></h2>
+        </div>
+        <p class="section-intro">Responda às questões e confira o gabarito comentado logo depois.</p>
+      </div>
+
+      <div class="quiz-layout">
+        <aside class="quiz-aside">
+          <span class="quiz-aside-icon" aria-hidden="true">🌿</span>
+          <h3>Aprender também é errar, revisar e tentar de novo.</h3>
+          <p>Leia cada alternativa com calma. O importante é entender o motivo da resposta.</p>
+          <div class="quiz-score">
+            <span>Seu desempenho</span>
+            <strong id="quizScore">0%</strong>
+            <div class="score-track"><div id="scoreBar"></div></div>
+            <small id="scoreDetail" role="status" aria-live="polite">0 de 0 questões respondidas</small>
+          </div>
+          <button type="button" class="text-link" id="resetQuiz">↻ Reiniciar progresso</button>
+        </aside>
+        <div class="question-list" id="questionList"></div>
+      </div>
+    </section>
+
+    <section class="essay-section" id="redacao">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">BIOLOGIA PARA ALÉM DA PROVA</p>
+          <h2>Ideias que merecem <em>ser discutidas.</em></h2>
+        </div>
+        <p class="section-intro">
+          Pratique a argumentação com temas atuais ligados à saúde e ao meio ambiente.
+        </p>
+      </div>
+
+      <div class="essay-tabs" id="essayTabs" role="tablist" aria-label="Eixos de redação">
+        <button type="button" class="essay-tab active" id="tab-saude" data-essay="saude" role="tab" aria-selected="true" aria-controls="essayPanel">♡ Saúde</button>
+        <button type="button" class="essay-tab" id="tab-ambiente" data-essay="ambiente" role="tab" aria-selected="false" aria-controls="essayPanel" tabindex="-1">♧ Meio ambiente</button>
+      </div>
+
+      <div class="essay-grid" id="essayPanel" role="tabpanel" aria-labelledby="tab-saude" tabindex="0"></div>
+
+      <div class="writing-tip">
+        <span aria-hidden="true">✦</span>
+        <p>
+          <strong>Dica de escrita:</strong>
+          contextualize o tema, apresente uma tese clara, desenvolva argumentos com exemplos e finalize com uma proposta de intervenção detalhada e respeitosa aos direitos humanos.
+        </p>
+      </div>
+    </section>
+
+    <section class="newsletter">
+      <div class="newsletter-symbol" aria-hidden="true">✿</div>
+      <div>
+        <p class="eyebrow">UM PASSO DE CADA VEZ</p>
+        <h2>Seu próximo aprendizado começa aqui.</h2>
+        <p>Escolha um conteúdo, faça uma revisão e acompanhe sua evolução.</p>
+      </div>
+      <a class="button button-primary" href="#conteudos">Continuar estudando <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <a class="brand" href="#inicio">
+      <span class="brand-mark" aria-hidden="true">✿</span>
+      <span>bio<span class="brand-light">viva</span></span>
+    </a>
+    <p>Aprender sobre a vida é também aprender a cuidar dela.</p>
+    <span>BioViva · Plataforma de estudos</span>
+  </footer>
+
+  <dialog id="topicDialog" class="topic-dialog" aria-labelledby="dialogTitle">
+    <form method="dialog">
+      <button type="submit" class="dialog-close" aria-label="Fechar">×</button>
+    </form>
+    <span class="dialog-icon" id="dialogIcon" aria-hidden="true">🌱</span>
+    <p class="eyebrow" id="dialogCategory">VIDA</p>
+    <h2 id="dialogTitle">Título do conteúdo</h2>
+    <div class="dialog-body" id="dialogBody"></div>
+    <button type="button" class="button button-primary" id="dialogStudy">Ir para questões relacionadas ↘</button>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
