@@ -7,6 +7,14 @@
   <meta name="theme-color" content="#0b2e59">
   <title>BioViva — aprenda Biologia no seu ritmo</title>
   <link rel="stylesheet" href="bio.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-64.png" sizes="64x64" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="BioViva">
 </head>
 <body>
   <a class="sr-only" href="#conteudos">Pular para o conteúdo principal</a>
@@ -23,6 +31,9 @@
       <a href="#questoes">Questões</a>
       <a href="#redacao">Redação</a>
     </nav>
+    <button type="button" class="install-btn" id="installApp" hidden>
+      <span aria-hidden="true">↓</span> Instalar app
+    </button>
     <a class="top-cta" href="#questoes">Começar a estudar <span aria-hidden="true">↗</span></a>
   </header>
 
@@ -213,6 +224,12 @@
     <p>Aprender sobre a vida é também aprender a cuidar dela.</p>
     <span>BioViva · Plataforma de estudos</span>
   </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+    <span id="toastMessage"></span>
+    <button type="button" class="toast-action" id="toastAction" hidden></button>
+    <button type="button" class="toast-close" id="toastClose" aria-label="Fechar aviso">×</button>
+  </div>
 
   <dialog id="topicDialog" class="topic-dialog" aria-labelledby="dialogTitle">
     <form method="dialog">

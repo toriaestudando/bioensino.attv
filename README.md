@@ -6,6 +6,18 @@ Site estático (HTML + CSS + JavaScript puro, sem build) para estudo de Biologia
 - **Flashcards** — 8 cartões com virada, progresso e atalhos de teclado (← →).
 - **Questões** — 5 questões com correção automática, gabarito comentado e placar.
 - **Redação** — 8 temas divididos em dois eixos (Saúde e Meio ambiente).
+- **PWA** — instalável no celular e no computador, com atalhos para Flashcards, Questões e Redação, e funciona offline.
+
+## Arquivos do PWA
+
+| Arquivo | Função |
+| --- | --- |
+| `manifest.json` | Manifesto do app (nome, ícones, cor da barra, atalhos). |
+| `sw.js` | Service worker: cache do app, uso offline e atualização de versão. |
+| `icons/` | Ícones 192, 512, maskable (Android), apple-touch-icon e favicon SVG. |
+
+Ao mexer no `sw.js`, troque a constante `VERSION` para forçar a atualização do cache nos
+usuários que já avaliaram o site.
 
 ## Rodando localmente
 

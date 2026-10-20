@@ -1087,3 +1087,146 @@ renderTopics();
 renderFlash();
 renderQuestions();
 renderEssays(currentEssay);
+
+
+/* =============================================
+   14. PWA: AVISOS, INSTALAÇÃO E SERVICE WORKER
+   ============================================= */
+
+const toast = document.getElementById('toast');
+const toastMessage = document.getElementById('toastMessage');
+const toastAction = document.getElementById('toastAction');
+const toastClose = document.getElementById('toastClose');
+const installApp = document.getElementById('installApp');
+
+let toastTimer = null;
+
+/**
+ * Mostra um aviso flutuante no rodapé da tela.
+ * `duration: 0` mantém o aviso na tela até o usuário fechá-lo.
+ */
+function showToast(message, options = {}) {
+  const { actionLabel = '', onAction = null, duration = 6000 } = options;
+
+  toastMessage.textContent = message;
+  toastAction.textContent = actionLabel;
+  toastAction.hidden = !actionLabel;
+  toastAction.onclick = () => {
+    hideToast();
+
+    if (onAction) onAction();
+  };
+
+  toast.hidden = false;
+
+  requestAnimationFrame(() => toast.classList.add('is-visible'));
+
+  clearTimeout(toastTimer);
+
+  if (duration > 0) {
+    toastTimer = setTimeout(hideToast, duration);
+  }
+}
+
+function hideToast() {
+  toast.classList.remove('is-visible');
+
+  setTimeout(() => {
+    if (!toast.classList.contains('is-visible')) {
+      toast.hidden = true;
+    }
+  }, 250);
+}
+
+toastClose.addEventListener('click', hideToast);
+
+
+/* INSTALAÇÃO DO APP */
+
+let deferredInstallPrompt = null;
+
+// Chrome/Edge/Opera avisam que o app pode ser instalado.
+window.addEventListener('beforeinstallprompt', event => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  installApp.hidden = false;
+});
+
+// No Safari (iOS) não existe esse evento: o botão mostra o passo a passo.
+const isAppleDevice = /iPad|iPhone|iPod/.test(navigator.userAgent);
+const isInstalled = window.matchMedia('(display-mode: standalone)').matches ||
+  window.navigator.standalone === true;
+
+if (isAppleDevice && !isInstalled) {
+  installApp.hidden = false;
+}
+
+installApp.addEventListener('click', async () => {
+  if (!deferredInstallPrompt) {
+    showToast('No iPhone ou iPad, toque em Compartilhar › Adicionar à Tela de Início.');
+    return;
+  }
+
+  deferredInstallPrompt.prompt();
+
+  await deferredInstallPrompt.userChoice;
+
+  deferredInstallPrompt = null;
+  installApp.hidden = true;
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  installApp.hidden = true;
+  showToast('BioViva instalado! Agora você estuda offline também.');
+});
+
+
+/* SERVICE WORKER (OFFLINE) */
+
+if ('serviceWorker' in navigator) {
+  // Sem um controller ainda, esta é a primeira instalação: não recarrega a página.
+  const hadController = Boolean(navigator.serviceWorker.controller);
+
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js', { scope: './' })
+      .then(registration => {
+        // Avisa quando uma versão nova do app fica pronta.
+        registration.addEventListener('updatefound', () => {
+          const worker = registration.installing;
+
+          if (!worker) return;
+
+          worker.addEventListener('statechange', () => {
+            if (worker.state === 'installed' && navigator.serviceWorker.controller) {
+              showToast('Nova versão do BioViva disponível.', {
+                actionLabel: 'Atualizar',
+                duration: 0,
+                onAction: () => worker.postMessage({ type: 'SKIP_WAITING' })
+              });
+            }
+          });
+        });
+      })
+      .catch(() => {
+        console.warn('Não foi possível registrar o service worker.');
+      });
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!hadController) return;
+
+      window.location.reload();
+    });
+  });
+}
+
+
+/* AVISO DE CONEXÃO */
+
+window.addEventListener('offline', () => {
+  showToast('Você está offline. O conteúdo salvo continua disponível.', { duration: 5000 });
+});
+
+window.addEventListener('online', () => {
+  showToast('Conexão restabelecida.', { duration: 3000 });
+});
